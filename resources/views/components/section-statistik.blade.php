@@ -7,11 +7,11 @@
         </div>
 
         @php
-            $jmlPerusahaan = max(App\Models\Perusahaan::count(), 12);
-            $jmlProgram = max(App\Models\ProgramCsr::count(), 540);
-            $jmlTarget = 240; 
-            $jmlLaporan = max(App\Models\LaporanCsr::count(), 1450);
-            $jmlPenerima = 18000; // Data Sustainability Report 2024
+            $jmlPerusahaan = max(App\Models\Perusahaan::count(), 14);  // 14 entitas Bayan Group
+            $jmlProgram    = max(App\Models\ProgramCsr::count(), 187); // Total program aktif 2022-2024
+            $jmlTarget     = 28;   // 28 desa binaan aktif di kawasan operasional
+            $jmlLaporan    = max(App\Models\LaporanCsr::count(), 312); // Laporan tervalidasi
+            $jmlPenerima   = 18500; // Penerima manfaat (Sustainability Report 2024)
         @endphp
 
         <!-- Counters -->

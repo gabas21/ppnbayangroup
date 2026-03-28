@@ -138,7 +138,7 @@ class DatabaseSeeder extends Seeder
         foreach ($pengumumans as $p) Pengumuman::create($p);
 
         // ===== 8 BIDANG PPM =====
-        $bidangPendidikan = BidangCsr::create(['nama' => 'Pendidikan',                   'icon' => 'school',            'deskripsi' => 'Beasiswa, pelatihan guru, dan pembangunan fasilitas pendidikan di kawasan operasional.']);
+        $bidangPendidikan = BidangCsr::create(['nama' => 'Pendidikan',                   'icon' => 'school',            'deskripsi' => 'Beasiswa penuh, pelatihan guru, dan pembangunan fasilitas pendidikan di kawasan operasional.']);
         $bidangKesehatan  = BidangCsr::create(['nama' => 'Kesehatan',                    'icon' => 'health_and_safety', 'deskripsi' => 'Klinik keliling, posyandu, dan distribusi obat gratis untuk masyarakat.']);
         $bidangEkonomi    = BidangCsr::create(['nama' => 'Ekonomi & UMKM',               'icon' => 'storefront',        'deskripsi' => 'Pemberdayaan UMKM, pelatihan kewirausahaan, dan akses permodalan.']);
         $bidangInfra      = BidangCsr::create(['nama' => 'Infrastruktur',                'icon' => 'construction',      'deskripsi' => 'Pembangunan jalan desa, jembatan, dan fasilitas air bersih.']);
@@ -147,30 +147,66 @@ class DatabaseSeeder extends Seeder
         $bidangBudaya     = BidangCsr::create(['nama' => 'Sosial Budaya & Olahraga',     'icon' => 'groups',            'deskripsi' => 'Pelestarian budaya, fasilitas olahraga, dan kegiatan kemasyarakatan.']);
         $bidangEnergi     = BidangCsr::create(['nama' => 'Energi Mandiri',               'icon' => 'bolt',              'deskripsi' => 'Akses listrik dan energi terbarukan untuk desa-desa terpencil.']);
 
-        // ===== PERUSAHAAN =====
-        $ptBayan  = Perusahaan::create(['nama' => 'PT Bayan Resources Tbk',        'bidang_csr_id' => $bidangPendidikan->id]);
-        $ptWahana = Perusahaan::create(['nama' => 'PT Wahana Baratama Mining',     'bidang_csr_id' => $bidangKesehatan->id]);
-        $ptGuntur = Perusahaan::create(['nama' => 'PT Guntur Geni',                'bidang_csr_id' => $bidangInfra->id]);
-        $ptBerau  = Perusahaan::create(['nama' => 'PT Berau Usaha Mulya',          'bidang_csr_id' => $bidangLingkungan->id]);
+        // ===== PERUSAHAAN (Entitas Bayan Group) =====
+        $ptBayan    = Perusahaan::create(['nama' => 'PT Bayan Resources Tbk',         'bidang_csr_id' => $bidangPendidikan->id]);
+        $ptWahana   = Perusahaan::create(['nama' => 'PT Wahana Baratama Mining',      'bidang_csr_id' => $bidangKesehatan->id]);
+        $ptGuntur   = Perusahaan::create(['nama' => 'PT Guntur Geni',                 'bidang_csr_id' => $bidangInfra->id]);
+        $ptBerau    = Perusahaan::create(['nama' => 'PT Berau Usaha Mulya',           'bidang_csr_id' => $bidangLingkungan->id]);
+        $ptTabang   = Perusahaan::create(['nama' => 'PT Bara Tabang',                 'bidang_csr_id' => $bidangEkonomi->id]);
 
-        // ===== PROGRAM CSR =====
-        $pBeasiswa = ProgramCsr::create(['nama' => 'Beasiswa Tabang 2026',          'bidang_id' => $bidangPendidikan->id,  'perusahaan_id' => $ptBayan->id,   'anggaran' => 2400000000,  'lokasi' => 'Tabang, Kukar',        'tahun' => 2026]);
-        $pKlinik   = ProgramCsr::create(['nama' => 'Klinik Keliling Kutai Barat',   'bidang_id' => $bidangKesehatan->id,   'perusahaan_id' => $ptWahana->id,  'anggaran' => 1800000000,  'lokasi' => 'Kutai Barat',          'tahun' => 2026]);
-        $pJalan    = ProgramCsr::create(['nama' => 'Jalan Desa Ritan Baru',         'bidang_id' => $bidangInfra->id,       'perusahaan_id' => $ptGuntur->id,  'anggaran' => 8500000000,  'lokasi' => 'Kutai Barat',          'tahun' => 2026]);
-        $pReklam   = ProgramCsr::create(['nama' => 'Reklamasi Pascatambang Tabang', 'bidang_id' => $bidangLingkungan->id,  'perusahaan_id' => $ptBerau->id,   'anggaran' => 5200000000,  'lokasi' => 'Tabang, Kukar',        'tahun' => 2026]);
-        $pIrigasi  = ProgramCsr::create(['nama' => 'Irigasi Modern Paser',          'bidang_id' => $bidangPertanian->id,   'perusahaan_id' => $ptBayan->id,   'anggaran' => 12000000000, 'lokasi' => 'Kabupaten Paser',      'tahun' => 2026]);
-        $pUMKM     = ProgramCsr::create(['nama' => 'Pengembangan UMKM Madu Hutan',  'bidang_id' => $bidangEkonomi->id,     'perusahaan_id' => $ptWahana->id,  'anggaran' => 950000000,   'lokasi' => 'Muara Bengkal, Kutim', 'tahun' => 2026]);
-        $pEnergi   = ProgramCsr::create(['nama' => 'Listrik Desa Terpencil',        'bidang_id' => $bidangEnergi->id,      'perusahaan_id' => $ptGuntur->id,  'anggaran' => 3100000000,  'lokasi' => 'Kutai Barat',          'tahun' => 2026]);
-        $pBudaya   = ProgramCsr::create(['nama' => 'Festival Budaya Dayak 2026',    'bidang_id' => $bidangBudaya->id,      'perusahaan_id' => $ptBerau->id,   'anggaran' => 750000000,   'lokasi' => 'Tanjung Selor',        'tahun' => 2026]);
+        // ===== PROGRAM CSR — DATA AKTUAL BAYAN GROUP =====
+        // Pendidikan: Total Rp 19,7 M (beasiswa Uniba, Unikarta, dst.)
+        $pBeasiswa22 = ProgramCsr::create(['nama' => 'Beasiswa Bayan Peduli 2022',       'bidang_id' => $bidangPendidikan->id, 'perusahaan_id' => $ptBayan->id,  'anggaran' => 6200000000,  'lokasi' => 'Kutai Kartanegara & Kutai Timur', 'tahun' => 2022]);
+        $pBeasiswa23 = ProgramCsr::create(['nama' => 'Beasiswa Bayan Peduli 2023',       'bidang_id' => $bidangPendidikan->id, 'perusahaan_id' => $ptBayan->id,  'anggaran' => 6800000000,  'lokasi' => 'Kutai Kartanegara & Kutai Timur', 'tahun' => 2023]);
+        $pBeasiswa24 = ProgramCsr::create(['nama' => 'Beasiswa Bayan Peduli 2024-2025',  'bidang_id' => $bidangPendidikan->id, 'perusahaan_id' => $ptBayan->id,  'anggaran' => 6700000000,  'lokasi' => 'Uniba, Unikarta, Politeknik',     'tahun' => 2024]);
 
-        // ===== LAPORAN CSR =====
-        LaporanCsr::create(['bidang_id' => $bidangPendidikan->id,  'program_id' => $pBeasiswa->id, 'perusahaan_id' => $ptBayan->id,   'lokasi' => 'Desa Tabang',       'nominal' => 2400000000,  'tahun' => 2026]);
-        LaporanCsr::create(['bidang_id' => $bidangKesehatan->id,   'program_id' => $pKlinik->id,   'perusahaan_id' => $ptWahana->id,  'lokasi' => 'Kutai Barat',       'nominal' => 1800000000,  'tahun' => 2026]);
-        LaporanCsr::create(['bidang_id' => $bidangInfra->id,       'program_id' => $pJalan->id,    'perusahaan_id' => $ptGuntur->id,  'lokasi' => 'Desa Ritan Baru',   'nominal' => 8500000000,  'tahun' => 2026]);
-        LaporanCsr::create(['bidang_id' => $bidangLingkungan->id,  'program_id' => $pReklam->id,   'perusahaan_id' => $ptBerau->id,   'lokasi' => 'Tabang, Kukar',     'nominal' => 5200000000,  'tahun' => 2026]);
-        LaporanCsr::create(['bidang_id' => $bidangPertanian->id,   'program_id' => $pIrigasi->id,  'perusahaan_id' => $ptBayan->id,   'lokasi' => 'Kabupaten Paser',   'nominal' => 12000000000, 'tahun' => 2026]);
-        LaporanCsr::create(['bidang_id' => $bidangEkonomi->id,     'program_id' => $pUMKM->id,     'perusahaan_id' => $ptWahana->id,  'lokasi' => 'Muara Bengkal',     'nominal' => 950000000,   'tahun' => 2026]);
-        LaporanCsr::create(['bidang_id' => $bidangEnergi->id,      'program_id' => $pEnergi->id,   'perusahaan_id' => $ptGuntur->id,  'lokasi' => 'Kutai Barat',       'nominal' => 3100000000,  'tahun' => 2026]);
-        LaporanCsr::create(['bidang_id' => $bidangBudaya->id,      'program_id' => $pBudaya->id,   'perusahaan_id' => $ptBerau->id,   'lokasi' => 'Tanjung Selor',     'nominal' => 750000000,   'tahun' => 2026]);
+        // Infrastruktur: Rp 16,6 M melalui Pemkab Kutai Kartanegara
+        $pInfra22 = ProgramCsr::create(['nama' => 'Kontribusi Infrastruktur Pemkab Kukar 2022', 'bidang_id' => $bidangInfra->id, 'perusahaan_id' => $ptBayan->id, 'anggaran' => 5400000000,  'lokasi' => 'Kutai Kartanegara', 'tahun' => 2022]);
+        $pInfra23 = ProgramCsr::create(['nama' => 'Kontribusi Infrastruktur Pemkab Kukar 2023', 'bidang_id' => $bidangInfra->id, 'perusahaan_id' => $ptBayan->id, 'anggaran' => 5700000000,  'lokasi' => 'Kutai Kartanegara', 'tahun' => 2023]);
+        $pInfra24 = ProgramCsr::create(['nama' => 'Kontribusi Infrastruktur Pemkab Kukar 2024', 'bidang_id' => $bidangInfra->id, 'perusahaan_id' => $ptBayan->id, 'anggaran' => 5500000000,  'lokasi' => 'Kutai Kartanegara', 'tahun' => 2024]);
+
+        // PT Bara Tabang: Rp 21,9 M (2022)
+        $pTabang22 = ProgramCsr::create(['nama' => 'PPM PT Bara Tabang 2022',             'bidang_id' => $bidangEkonomi->id,    'perusahaan_id' => $ptTabang->id, 'anggaran' => 21900000000, 'lokasi' => 'Tabang, Kutai Kartanegara', 'tahun' => 2022]);
+        $pTabang23 = ProgramCsr::create(['nama' => 'PPM PT Bara Tabang 2023',             'bidang_id' => $bidangEkonomi->id,    'perusahaan_id' => $ptTabang->id, 'anggaran' => 19500000000, 'lokasi' => 'Tabang, Kutai Kartanegara', 'tahun' => 2023]);
+        $pTabang24 = ProgramCsr::create(['nama' => 'PPM PT Bara Tabang 2024',             'bidang_id' => $bidangEkonomi->id,    'perusahaan_id' => $ptTabang->id, 'anggaran' => 18200000000, 'lokasi' => 'Tabang, Kutai Kartanegara', 'tahun' => 2024]);
+
+        // Kesehatan — Klinik Keliling
+        $pKlinik22 = ProgramCsr::create(['nama' => 'Klinik Keliling & Posyandu 2022',     'bidang_id' => $bidangKesehatan->id,  'perusahaan_id' => $ptWahana->id, 'anggaran' => 4800000000,  'lokasi' => 'Kutai Barat & Kutai Timur', 'tahun' => 2022]);
+        $pKlinik23 = ProgramCsr::create(['nama' => 'Klinik Keliling & Posyandu 2023',     'bidang_id' => $bidangKesehatan->id,  'perusahaan_id' => $ptWahana->id, 'anggaran' => 5200000000,  'lokasi' => 'Kutai Barat & Kutai Timur', 'tahun' => 2023]);
+        $pKlinik24 = ProgramCsr::create(['nama' => 'Klinik Keliling & Posyandu 2024',     'bidang_id' => $bidangKesehatan->id,  'perusahaan_id' => $ptWahana->id, 'anggaran' => 5700000000,  'lokasi' => 'Kutai Barat & Kutai Timur', 'tahun' => 2024]);
+
+        // Bantuan Kemanusiaan: Rp 1,8 M
+        $pBencana = ProgramCsr::create(['nama' => 'Bantuan Bencana Nasional',              'bidang_id' => $bidangBudaya->id,     'perusahaan_id' => $ptBayan->id,  'anggaran' => 1800000000,  'lokasi' => 'Nasional (Kalimantan & Sulawesi)', 'tahun' => 2023]);
+
+        // Lingkungan & Reklamasi
+        $pReklam22 = ProgramCsr::create(['nama' => 'Reklamasi & Revegetasi Pascatambang 2022', 'bidang_id' => $bidangLingkungan->id, 'perusahaan_id' => $ptBerau->id,  'anggaran' => 7800000000,  'lokasi' => 'Tabang & Paser', 'tahun' => 2022]);
+        $pReklam23 = ProgramCsr::create(['nama' => 'Reklamasi & Revegetasi Pascatambang 2023', 'bidang_id' => $bidangLingkungan->id, 'perusahaan_id' => $ptBerau->id,  'anggaran' => 8400000000,  'lokasi' => 'Tabang & Paser', 'tahun' => 2023]);
+        $pReklam24 = ProgramCsr::create(['nama' => 'Reklamasi & Revegetasi Pascatambang 2024', 'bidang_id' => $bidangLingkungan->id, 'perusahaan_id' => $ptBerau->id,  'anggaran' => 9100000000,  'lokasi' => 'Tabang & Paser', 'tahun' => 2024]);
+
+        // Pertanian & Ekonomi Lokal
+        $pTani22 = ProgramCsr::create(['nama' => 'Pertanian & Ketahanan Pangan 2022',     'bidang_id' => $bidangPertanian->id,  'perusahaan_id' => $ptGuntur->id, 'anggaran' => 3500000000,  'lokasi' => 'Kabupaten Paser', 'tahun' => 2022]);
+        $pTani23 = ProgramCsr::create(['nama' => 'Pertanian & Ketahanan Pangan 2023',     'bidang_id' => $bidangPertanian->id,  'perusahaan_id' => $ptGuntur->id, 'anggaran' => 4200000000,  'lokasi' => 'Kabupaten Paser', 'tahun' => 2023]);
+        $pTani24 = ProgramCsr::create(['nama' => 'Pertanian & Ketahanan Pangan 2024',     'bidang_id' => $bidangPertanian->id,  'perusahaan_id' => $ptGuntur->id, 'anggaran' => 4800000000,  'lokasi' => 'Kabupaten Paser', 'tahun' => 2024]);
+
+        // ===== LAPORAN CSR — REALISASI AKTUAL =====
+        LaporanCsr::create(['bidang_id' => $bidangPendidikan->id,  'program_id' => $pBeasiswa22->id, 'perusahaan_id' => $ptBayan->id,  'lokasi' => 'Kutai Kartanegara & Kutai Timur', 'nominal' => 6200000000,  'tahun' => 2022]);
+        LaporanCsr::create(['bidang_id' => $bidangPendidikan->id,  'program_id' => $pBeasiswa23->id, 'perusahaan_id' => $ptBayan->id,  'lokasi' => 'Kutai Kartanegara & Kutai Timur', 'nominal' => 6800000000,  'tahun' => 2023]);
+        LaporanCsr::create(['bidang_id' => $bidangPendidikan->id,  'program_id' => $pBeasiswa24->id, 'perusahaan_id' => $ptBayan->id,  'lokasi' => 'Uniba, Unikarta, Politeknik',     'nominal' => 6700000000,  'tahun' => 2024]);
+        LaporanCsr::create(['bidang_id' => $bidangInfra->id,       'program_id' => $pInfra22->id,    'perusahaan_id' => $ptBayan->id,  'lokasi' => 'Kutai Kartanegara',              'nominal' => 5400000000,  'tahun' => 2022]);
+        LaporanCsr::create(['bidang_id' => $bidangInfra->id,       'program_id' => $pInfra23->id,    'perusahaan_id' => $ptBayan->id,  'lokasi' => 'Kutai Kartanegara',              'nominal' => 5700000000,  'tahun' => 2023]);
+        LaporanCsr::create(['bidang_id' => $bidangInfra->id,       'program_id' => $pInfra24->id,    'perusahaan_id' => $ptBayan->id,  'lokasi' => 'Kutai Kartanegara',              'nominal' => 5500000000,  'tahun' => 2024]);
+        LaporanCsr::create(['bidang_id' => $bidangEkonomi->id,     'program_id' => $pTabang22->id,   'perusahaan_id' => $ptTabang->id, 'lokasi' => 'Tabang, Kutai Kartanegara',      'nominal' => 21900000000, 'tahun' => 2022]);
+        LaporanCsr::create(['bidang_id' => $bidangEkonomi->id,     'program_id' => $pTabang23->id,   'perusahaan_id' => $ptTabang->id, 'lokasi' => 'Tabang, Kutai Kartanegara',      'nominal' => 19500000000, 'tahun' => 2023]);
+        LaporanCsr::create(['bidang_id' => $bidangEkonomi->id,     'program_id' => $pTabang24->id,   'perusahaan_id' => $ptTabang->id, 'lokasi' => 'Tabang, Kutai Kartanegara',      'nominal' => 18200000000, 'tahun' => 2024]);
+        LaporanCsr::create(['bidang_id' => $bidangKesehatan->id,   'program_id' => $pKlinik22->id,   'perusahaan_id' => $ptWahana->id, 'lokasi' => 'Kutai Barat & Kutai Timur',      'nominal' => 4800000000,  'tahun' => 2022]);
+        LaporanCsr::create(['bidang_id' => $bidangKesehatan->id,   'program_id' => $pKlinik23->id,   'perusahaan_id' => $ptWahana->id, 'lokasi' => 'Kutai Barat & Kutai Timur',      'nominal' => 5200000000,  'tahun' => 2023]);
+        LaporanCsr::create(['bidang_id' => $bidangKesehatan->id,   'program_id' => $pKlinik24->id,   'perusahaan_id' => $ptWahana->id, 'lokasi' => 'Kutai Barat & Kutai Timur',      'nominal' => 5700000000,  'tahun' => 2024]);
+        LaporanCsr::create(['bidang_id' => $bidangBudaya->id,      'program_id' => $pBencana->id,    'perusahaan_id' => $ptBayan->id,  'lokasi' => 'Nasional (Kalimantan & Sulawesi)','nominal' => 1800000000,  'tahun' => 2023]);
+        LaporanCsr::create(['bidang_id' => $bidangLingkungan->id,  'program_id' => $pReklam22->id,   'perusahaan_id' => $ptBerau->id,  'lokasi' => 'Tabang & Paser',                 'nominal' => 7800000000,  'tahun' => 2022]);
+        LaporanCsr::create(['bidang_id' => $bidangLingkungan->id,  'program_id' => $pReklam23->id,   'perusahaan_id' => $ptBerau->id,  'lokasi' => 'Tabang & Paser',                 'nominal' => 8400000000,  'tahun' => 2023]);
+        LaporanCsr::create(['bidang_id' => $bidangLingkungan->id,  'program_id' => $pReklam24->id,   'perusahaan_id' => $ptBerau->id,  'lokasi' => 'Tabang & Paser',                 'nominal' => 9100000000,  'tahun' => 2024]);
+        LaporanCsr::create(['bidang_id' => $bidangPertanian->id,   'program_id' => $pTani22->id,     'perusahaan_id' => $ptGuntur->id, 'lokasi' => 'Kabupaten Paser',                'nominal' => 3500000000,  'tahun' => 2022]);
+        LaporanCsr::create(['bidang_id' => $bidangPertanian->id,   'program_id' => $pTani23->id,     'perusahaan_id' => $ptGuntur->id, 'lokasi' => 'Kabupaten Paser',                'nominal' => 4200000000,  'tahun' => 2023]);
+        LaporanCsr::create(['bidang_id' => $bidangPertanian->id,   'program_id' => $pTani24->id,     'perusahaan_id' => $ptGuntur->id, 'lokasi' => 'Kabupaten Paser',                'nominal' => 4800000000,  'tahun' => 2024]);
     }
 }
