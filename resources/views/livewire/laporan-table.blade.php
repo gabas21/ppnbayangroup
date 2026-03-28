@@ -150,7 +150,7 @@
             Menampilkan {{ $laporans->firstItem() ?? 0 }} - {{ $laporans->lastItem() ?? 0 }} dari total {{ $laporans->total() }} data
         </div>
         <div class="w-full sm:w-auto">
-            {{ $laporans->links() }}
+            {{ $laporans->links(data: ['scrollTo' => false]) }}
         </div>
         <div class="flex gap-2">
             <!-- Peringatan: tombol export belum terimplementasi fungsional backend-nya (placeholder) -->

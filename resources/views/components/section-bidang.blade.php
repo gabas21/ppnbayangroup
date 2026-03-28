@@ -1,4 +1,4 @@
-<section id="bidang" class="py-16 md:py-24 bg-gray-50 relative border-t border-gray-100" x-data="{ modalOpen: false, modalData: null }">
+<section id="bidang" class="py-16 md:py-24 bg-gray-50 relative border-t border-gray-100" :class="modalOpen ? 'z-[100]' : ''" x-data="{ modalOpen: false, modalData: null }">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div class="text-center mb-16 relative" x-data="{ shown: false }" x-intersect.half="shown = true">
             <span class="text-[var(--color-primary)] font-bold uppercase tracking-[0.3em] text-[10px] mb-4 block">8 Pilar PPM Tambang</span>
@@ -72,8 +72,9 @@
         </div>
     <!-- END Grid -->
 
-    <!-- Modal Popup (Alpine powered, no Livewire delay) -->
-        <div x-show="modalOpen" class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-gray-900/60 backdrop-blur-sm"
+    <!-- Modal Popup (Teleported to body to fix navbar overlap) -->
+    <template x-teleport="body">
+        <div x-show="modalOpen" class="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-gray-900/60 backdrop-blur-sm"
              x-transition:enter="transition ease-out duration-300"
              x-transition:enter-start="opacity-0"
              x-transition:enter-end="opacity-100"
@@ -186,5 +187,6 @@
                 </div>
             </div>
         </div>
+    </template>
     </div>
 </section>
