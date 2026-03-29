@@ -8,7 +8,7 @@
             <!-- Kolom 1: Logo + Counter -->
             <div class="flex flex-col">
                 <div class="flex flex-col items-start gap-4 mb-10 group">
-                    <img src="{{ asset('build/assets/cover_w270_h33_v3_b_cover_w270_h33_logo_bayan_black.png') }}" 
+                    <img src="{{ asset('images/logo_bayan_black.png') }}" 
                          alt="Bayan Group Logo" 
                          class="h-10 w-auto object-contain transform invert hue-rotate-180 opacity-90 group-hover:opacity-100 transition-opacity drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]">
                     <div class="pl-3 border-l-2 border-[var(--color-primary)]/40 mt-1">

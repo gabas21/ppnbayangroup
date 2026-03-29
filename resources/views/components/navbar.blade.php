@@ -16,7 +16,7 @@
             <div class="flex-shrink-0 flex items-center gap-4">
                 <a href="/" class="flex items-center gap-4">
                     <div class="transition-all duration-300 flex items-center">
-                        <img src="{{ asset('build/assets/cover_w270_h33_v3_b_cover_w270_h33_logo_bayan_black.png') }}"
+                        <img src="{{ asset('images/logo_bayan_black.png') }}"
                              alt="Bayan Group Logo"
                              class="h-7 md:h-9 w-auto object-contain transition-all duration-300"
                              :class="!scrolled ? 'invert hue-rotate-180 drop-shadow-sm' : ''">
